@@ -12,10 +12,7 @@ Open Source Algo Trading Platform to trade various financial products (Equity/Fu
  All CPU-intensive processes are asynchronous, taking full advantage of multi-core processors. 
  Data loading,message processes make full use of asynchronous programming design.
  
- FP Trader is Flexible, Customizable and Performant
-  Flexible
-    It will  work retail trading, professional trading, automated trading, black box trading and more. 
-    No matter if you are a brokerage, professional trader, hedge fund or prop trader, this will provide an interface for trading.
+ FP Trader is Flexible, Customizable and Performant. It will  work for retail trading, professional trading, automated trading, black box trading and more.  No matter if you are a brokerage, professional trader, hedge fund or prop trader, this will provide an interface for trading.
      
      Features 
       - Professional charting and technical analysis.
