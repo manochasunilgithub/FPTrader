@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FPTrader", "FPTrader\FPTrader.csproj", "{CE300DC6-8212-4AEC-B078-C8AB32A72CDC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketData", "MarketData", "{F895A301-5472-45D1-BCB1-77AAAA5DE30F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReferenceData", "ReferenceData", "{3CB63EDB-1148-4055-A78D-4E89CD97867D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketDataService", "MarketDataService\MarketDataService.csproj", "{1E633068-622E-4784-9C47-12D8A0B86F88}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{CD58B70B-46BB-4A6E-94A9-2C000EBF85B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketDataServiceTest", "MarketDataServiceTest\MarketDataServiceTest.csproj", "{D92415BB-077E-489F-BF6B-36CED1434BBE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE300DC6-8212-4AEC-B078-C8AB32A72CDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE300DC6-8212-4AEC-B078-C8AB32A72CDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE300DC6-8212-4AEC-B078-C8AB32A72CDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE300DC6-8212-4AEC-B078-C8AB32A72CDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E633068-622E-4784-9C47-12D8A0B86F88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E633068-622E-4784-9C47-12D8A0B86F88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E633068-622E-4784-9C47-12D8A0B86F88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E633068-622E-4784-9C47-12D8A0B86F88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D92415BB-077E-489F-BF6B-36CED1434BBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D92415BB-077E-489F-BF6B-36CED1434BBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D92415BB-077E-489F-BF6B-36CED1434BBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D92415BB-077E-489F-BF6B-36CED1434BBE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1E633068-622E-4784-9C47-12D8A0B86F88} = {F895A301-5472-45D1-BCB1-77AAAA5DE30F}
+		{CD58B70B-46BB-4A6E-94A9-2C000EBF85B3} = {F895A301-5472-45D1-BCB1-77AAAA5DE30F}
+		{D92415BB-077E-489F-BF6B-36CED1434BBE} = {CD58B70B-46BB-4A6E-94A9-2C000EBF85B3}
+	EndGlobalSection
+EndGlobal
