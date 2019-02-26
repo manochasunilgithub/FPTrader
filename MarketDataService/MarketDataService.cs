@@ -19,9 +19,9 @@ namespace MarketDataService
     public interface MarketDataService
     {
         //This is to subscribe
-        IDisposable Subscribe(string symbol, SymbolType symbolType, SubscriptionType subscriptionType);
+        bool Subscribe(string symbol, SymbolType symbolType, SubscriptionType subscriptionType);
 
-        void UnSubscribe(string symbol, SymbolType symbolType);
+        bool UnSubscribe(string symbol, SymbolType symbolType);
 
 
 
