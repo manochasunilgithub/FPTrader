@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MarketDataService
+namespace MarketData
 {
     public enum SymbolType
     {
@@ -11,9 +11,8 @@ namespace MarketDataService
 
     public enum SubscriptionType
     {
-        TopLevel,
-        Depth,
-        TopLevelAndDepth
+        Level1,
+        Depth // Subscribe to market depth info
     }
 
     public interface MarketDataService

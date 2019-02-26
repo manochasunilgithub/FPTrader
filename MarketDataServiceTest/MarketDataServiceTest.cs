@@ -9,6 +9,7 @@ namespace MarketDataServiceTest
         [TestMethod]
         public void SubscribeTest()
         {
+            
         }
     }
 }
