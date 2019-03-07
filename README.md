@@ -8,7 +8,7 @@ Open Source Algo Trading Platform to trade various financial products (Equity/Fu
  focus on your algorithm strategy and execution. 
  Data is piped into your strategy for you to analyze and place trades.
 
-![](architect.png)
+![](FpTraderHLD.png)
 
  FPTrader supports C# and Python  programming languages making  a truly open platform which can be run on linux or Windows.
  All CPU-intensive processes are asynchronous, taking full advantage of multi-core processors. 
