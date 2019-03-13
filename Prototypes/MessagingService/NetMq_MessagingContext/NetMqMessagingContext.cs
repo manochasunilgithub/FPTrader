@@ -15,26 +15,25 @@ namespace NetMq_MessagingContext
     // we can have scenraio where server will need both publisher and subscription role
     public class NetMqMessagingContext : IMessagingContext
     {
-        Dictionary<string, int> messageCache = new Dictionary<string, int>();
         Dictionary<ulong, Action<byte[]>> requestCallBacks = new Dictionary<ulong, Action<byte[]>>();
+
         private PublisherSocket publisherSocket; // Used by Server publisher
         private ResponseSocket responseSocket;// Used by Server Response socket
 
         private RequestSocket requestSocket;// Used by Client request
         private SubscriberSocket subcriberSocket;// Used by Client request
 
+        private ContextType _contextType;
+
 
         public NetMqMessagingContext(ContextType contextType, List<string> topics)
         {
+            _contextType = contextType;
             if (contextType == ContextType.PUB_RESP)
             {
                 Console.BackgroundColor = ConsoleColor.DarkGreen;
                 Console.ForegroundColor = ConsoleColor.White;
-                // Initialize topics
-                foreach (var topic in topics)
-                {
-                    messageCache.Add(topic, 1);
-                }
+
                 InitializeServer();
 
             }
@@ -42,8 +41,8 @@ namespace NetMq_MessagingContext
             {
                 Console.BackgroundColor = ConsoleColor.DarkGray;
                 Console.ForegroundColor = ConsoleColor.White;
-                Task t = new Task(() => InitializeClient(topics));
-                t.Start();
+                InitializeClient(topics);
+
             }
         }
 
@@ -54,16 +53,11 @@ namespace NetMq_MessagingContext
             subcriberSocket.Connect("tcp://127.0.0.1:5001");
 
             // Receive Sync messages, ideally we will queue these messages while taking the snapshot and use uniqiue way of identifying the message and throw away
-            subcriberSocket.ReceiveReady += subcriptionReceived;
+            subcriberSocket.ReceiveReady += SubcriptionReceived;
 
             requestSocket = new RequestSocket();
             requestSocket.Connect("tcp://127.0.0.1:5002");
-            requestSocket.ReceiveReady += replyReceived;
-
-            using (var poller = new NetMQPoller { subcriberSocket, requestSocket })
-            {
-                poller.Run();
-            }
+            requestSocket.ReceiveReady += ReplyReceived;
 
         }
 
@@ -71,60 +65,34 @@ namespace NetMq_MessagingContext
         {
             publisherSocket = new PublisherSocket();
             responseSocket = new ResponseSocket();
-            {
-                publisherSocket.Bind("tcp://*:5001"); // binds the local ip address to port 5001
+            publisherSocket.Bind("tcp://*:5001"); // binds the local ip address to port 5001
 
-                Random r = new Random(2);
+            responseSocket.Bind("tcp://*:5002");
+            responseSocket.ReceiveReady += responseSocket_ReceiveReady;
 
-                responseSocket.Bind("tcp://*:5002");
-                responseSocket.ReceiveReady += responseSocket_ReceiveReady;
-
-                var timer = new NetMQTimer(TimeSpan.FromSeconds(1));
-
-                timer.Elapsed += (s, a) =>
-                {
-                    foreach (var _key in messageCache.ToArray())
-                    {
-                        messageCache[_key.Key] = r.Next(2, 1000);
-
-                        // ReSharper disable once AccessToDisposedClosure
-                        publisherSocket.SendFrame(_key.Key, true);
-
-                        // ReSharper disable once AccessToDisposedClosure
-                        publisherSocket.SendFrame(BitConverter.GetBytes(messageCache[_key.Key]), false);
-
-                    }
-
-                };
-
-
-                using (var poller = new NetMQPoller { publisherSocket, responseSocket, timer })
-                {
-                    poller.Run();
-                }
-            }
         }
 
-        private void replyReceived(object sender, NetMQSocketEventArgs e)
+        private void ReplyReceived(object sender, NetMQSocketEventArgs e)
         {
             var replyMsg = e.Socket.ReceiveFrameString();
             var requestIdBytes = e.Socket.ReceiveFrameBytes();
             var bytes = e.Socket.ReceiveFrameBytes();
-            var reqId = BitConverter.ToUInt64(requestIdBytes,0);
+            var reqId = BitConverter.ToUInt64(requestIdBytes, 0);
             Console.WriteLine(
-                $"Received reply on topic {replyMsg} with value of {BitConverter.ToInt32(bytes,0)} and RequestId {BitConverter.ToUInt64(requestIdBytes,0)} ");
+                $"Received reply on topic {replyMsg} with value of {BitConverter.ToInt32(bytes, 0)} and RequestId {BitConverter.ToUInt64(requestIdBytes, 0)} ");
 
             if (requestCallBacks.TryGetValue(reqId, out var callBack))
             {
                 callBack(bytes);
+                requestCallBacks.Remove(reqId);
             }
         }
 
-        private void subcriptionReceived(object sender, NetMQSocketEventArgs e)
+        private void SubcriptionReceived(object sender, NetMQSocketEventArgs e)
         {
             var topicPath = e.Socket.ReceiveFrameString();
             var bytes = subcriberSocket.ReceiveFrameBytes();
-            Console.WriteLine($"Received subscription message on topic {topicPath} with value of {BitConverter.ToInt32(bytes,0)} ");
+            Console.WriteLine($"Received subscription message on topic {topicPath} with value of {BitConverter.ToInt32(bytes, 0)} ");
             if (observers.TryGetValue(topicPath, out var list))
             {
                 foreach (var observer in list)
@@ -141,14 +109,25 @@ namespace NetMq_MessagingContext
             // we got a new snapshot request, let's send the response back
             var reqMsg = e.Socket.ReceiveFrameString();
             byte[] requestIdBytes = e.Socket.ReceiveFrameBytes();
-            // var requestId = BitConverter.ToUInt64(requestIdBytes);
-            if (messageCache.TryGetValue(reqMsg, out var val))
+
+            if (OnRequest != null)
             {
-                e.Socket.SendFrame(reqMsg, true);
-                e.Socket.SendFrame(requestIdBytes, true);
-                // send the response back here
-                e.Socket.SendFrame(BitConverter.GetBytes(messageCache[reqMsg]), false);
+                byte[] replyBytes = OnRequest(reqMsg);
+                // send the response back here.. if not found we should return error code. topic not found.. should be handled in the message
+                if (replyBytes != null)
+                {
+                    e.Socket.SendFrame(reqMsg, true);
+                    e.Socket.SendFrame(requestIdBytes, true);
+                    e.Socket.SendFrame(replyBytes);
+                }
+                else // Error case if no topic found
+                {
+                    e.Socket.SendFrame(reqMsg, true);
+                    e.Socket.SendFrame(requestIdBytes, true);
+                    e.Socket.SendFrame(BitConverter.GetBytes(-1)); // we Should imrpove on this.
+                }
             }
+
         }
 
 
@@ -161,8 +140,7 @@ namespace NetMq_MessagingContext
             }
             else
             {
-                list = new List<IObserver<byte[]>>();
-                list.Add(observer);
+                list = new List<IObserver<byte[]>> { observer };
                 observers.Add(path, list);
                 subcriberSocket.Subscribe(path);
             }
@@ -171,14 +149,21 @@ namespace NetMq_MessagingContext
 
         public bool Unsubscribe(string path, IObserver<byte[]> observer)
         {
-            throw new NotImplementedException();
+            if (observers.TryGetValue(path, out var list))
+            {
+                if (list.Contains(observer))
+                {
+                    list.Remove(observer);
+                }
+            }
+            return false;
         }
 
         public Status Publish(string path, byte[] bytes)
         {
             try
             {
-                publisherSocket?.SendFrame(path);
+                publisherSocket?.SendFrame(path, true);
                 publisherSocket?.SendFrame(bytes);
             }
             catch (Exception)
@@ -207,6 +192,31 @@ namespace NetMq_MessagingContext
             throw new NotImplementedException();
         }
 
+        private bool started = false;
+        public void Run()
+        {
+            if (!started)
+            {
+                new Thread(() =>
+                {
+                    if (_contextType == ContextType.PUB_RESP)
+                    {
+                        using (var poller = new NetMQPoller { publisherSocket, responseSocket })
+                        {
+                            poller.Run();
+                        }
+                    }
+                    else if (_contextType == ContextType.SUB_REQ)
+                    {
+                        using (var poller = new NetMQPoller { subcriberSocket, requestSocket })
+                        {
+                            poller.Run();
+                        }
+                    }
+                }).Start();
+            }
+        }
 
+        public Func<string, byte[]> OnRequest { get; set; }
     }
 }

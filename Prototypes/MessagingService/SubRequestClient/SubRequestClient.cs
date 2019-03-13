@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using MessagingContext;
@@ -17,8 +18,7 @@ namespace SubRequestClient
 
             // TODO: Use dependency injection to instantiate
             IMessagingContext clientContext = new NetMqMessagingContext(ContextType.SUB_REQ, topics);
-            // TODO : cleaner way to know if Messaging service is ready, may be callback for readiness
-            Thread.Sleep(5000);
+            clientContext.Run();
             foreach (var topic in topics)
             {
                 // we should always subscribe first and queue up the messages while waiting for snapshot
@@ -26,12 +26,11 @@ namespace SubRequestClient
                 clientContext.Request(topic, null, p.replyCallBack, null, new TimeSpan(), out var id, null);
             }
             Console.ReadKey();
-
         }
 
         public void replyCallBack(byte[] data)
         {
-            Console.WriteLine($"Reply received with value of {BitConverter.ToInt32(data,0)}");
+            Console.WriteLine($"Reply received with value of {BitConverter.ToInt32(data, 0)}");
         }
 
         public void OnCompleted()
@@ -46,7 +45,7 @@ namespace SubRequestClient
 
         public void OnNext(byte[] value)
         {
-            Console.WriteLine($"Recieved notification with value of {BitConverter.ToInt32(value,0)}");
+            Console.WriteLine($"Received notification with value of {BitConverter.ToInt32(value, 0)}");
         }
     }
 }

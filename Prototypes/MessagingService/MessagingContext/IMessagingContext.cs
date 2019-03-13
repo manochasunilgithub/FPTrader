@@ -41,5 +41,15 @@ namespace MessagingContext
         /// Send a reply to a request for the given request id
         /// </summary>
         Status Reply(ulong requestId, byte[] data, bool isFinal);
+
+        /// <summary>
+        /// This will run the loop and keep polling for messages
+        /// </summary>
+        void Run();
+
+        /// <summary>
+        /// Event to handle Request and call back with reply
+        /// </summary>
+        Func<string, byte[]> OnRequest { get; set; }
     }
 }
