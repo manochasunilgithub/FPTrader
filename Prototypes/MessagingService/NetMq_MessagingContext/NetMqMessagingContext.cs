@@ -31,18 +31,11 @@ namespace NetMq_MessagingContext
             _contextType = contextType;
             if (contextType == ContextType.PUB_RESP)
             {
-                Console.BackgroundColor = ConsoleColor.DarkGreen;
-                Console.ForegroundColor = ConsoleColor.White;
-
                 InitializeServer();
-
             }
             else
             {
-                Console.BackgroundColor = ConsoleColor.DarkGray;
-                Console.ForegroundColor = ConsoleColor.White;
                 InitializeClient(topics);
-
             }
         }
 

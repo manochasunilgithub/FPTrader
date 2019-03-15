@@ -17,6 +17,8 @@ namespace PubReplyServer
 
         static void Main(string[] args)
         {
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.White;
             Program p = new Program();
             p.Initialize();
         }
