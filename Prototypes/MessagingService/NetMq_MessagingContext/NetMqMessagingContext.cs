@@ -65,9 +65,9 @@ namespace NetMq_MessagingContext
         {
             publisherSocket = new PublisherSocket();
             responseSocket = new ResponseSocket();
-            publisherSocket.Bind("tcp://*:5001"); // binds the local ip address to port 5001
+            publisherSocket.Bind("tcp://127.0.0.1:5001"); // binds the local ip address to port 5001
 
-            responseSocket.Bind("tcp://*:5002");
+            responseSocket.Bind("tcp://127.0.0.1:5002");
             responseSocket.ReceiveReady += responseSocket_ReceiveReady;
 
         }
