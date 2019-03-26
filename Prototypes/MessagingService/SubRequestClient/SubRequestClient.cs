@@ -12,6 +12,8 @@ namespace SubRequestClient
     {
         static void Main(string[] args)
         {
+            Console.BackgroundColor = ConsoleColor.DarkGray;
+            Console.ForegroundColor = ConsoleColor.White;
             Program p = new Program();
             List<string> topics = new List<string>();
             topics.Add("Topic_A");
@@ -45,7 +47,7 @@ namespace SubRequestClient
 
         public void OnNext(byte[] value)
         {
-            Console.WriteLine($"Received notification with value of {BitConverter.ToInt32(value, 0)}");
+            Console.WriteLine($"Received notification with value of {BitConverter.ToInt32(value, 0)} at { DateTime.Now.ToString("HH:mm:ss.ffffff")}");
         }
     }
 }

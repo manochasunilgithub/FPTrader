@@ -19,15 +19,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Prototypes", "Prototypes", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MessagingService", "MessagingService", "{B297F120-A753-439C-9966-B383BD353AC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessagingContext", "Prototypes\MessagingService\MessagingContext\MessagingContext.csproj", "{7F472CC2-6794-48B0-A177-113A9729E29D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessagingContext", "Prototypes\MessagingService\MessagingContext\MessagingContext.csproj", "{7F472CC2-6794-48B0-A177-113A9729E29D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMq_MessagingContext", "Prototypes\MessagingService\NetMq_MessagingContext\NetMq_MessagingContext.csproj", "{9B4643C5-D2CC-4557-8A63-8D1EE1AD6582}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetMq_MessagingContext", "Prototypes\MessagingService\NetMq_MessagingContext\NetMq_MessagingContext.csproj", "{9B4643C5-D2CC-4557-8A63-8D1EE1AD6582}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZeroMq_MessagingContext", "Prototypes\MessagingService\ZeroMq_MessagingContext\ZeroMq_MessagingContext.csproj", "{10041BE6-6352-4A40-A9B3-21E1FF8B982A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZeroMq_MessagingContext", "Prototypes\MessagingService\ZeroMq_MessagingContext\ZeroMq_MessagingContext.csproj", "{10041BE6-6352-4A40-A9B3-21E1FF8B982A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PubReplyServer", "Prototypes\MessagingService\PubReplyServer\PubReplyServer.csproj", "{480DE23C-C89F-4733-B9A6-EC2759B4C48E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PubReplyServer", "Prototypes\MessagingService\PubReplyServer\PubReplyServer.csproj", "{480DE23C-C89F-4733-B9A6-EC2759B4C48E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubRequestClient", "Prototypes\MessagingService\SubRequestClient\SubRequestClient.csproj", "{BB950877-DC4C-4AFD-B294-2938A9C701F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubRequestClient", "Prototypes\MessagingService\SubRequestClient\SubRequestClient.csproj", "{BB950877-DC4C-4AFD-B294-2938A9C701F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Python", "Python", "{138D1826-DE3F-4748-9604-EACCCA426307}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "MessagingClient", "Prototypes\Python\MessagingClient\MessagingClient.pyproj", "{37D36604-A6A1-4E40-9650-289C0E5A99A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +71,8 @@ Global
 		{BB950877-DC4C-4AFD-B294-2938A9C701F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB950877-DC4C-4AFD-B294-2938A9C701F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB950877-DC4C-4AFD-B294-2938A9C701F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37D36604-A6A1-4E40-9650-289C0E5A99A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37D36604-A6A1-4E40-9650-289C0E5A99A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,5 +87,10 @@ Global
 		{10041BE6-6352-4A40-A9B3-21E1FF8B982A} = {B297F120-A753-439C-9966-B383BD353AC3}
 		{480DE23C-C89F-4733-B9A6-EC2759B4C48E} = {B297F120-A753-439C-9966-B383BD353AC3}
 		{BB950877-DC4C-4AFD-B294-2938A9C701F6} = {B297F120-A753-439C-9966-B383BD353AC3}
+		{138D1826-DE3F-4748-9604-EACCCA426307} = {5E69F88C-A470-44B5-AA2C-BDF0F4B24EE8}
+		{37D36604-A6A1-4E40-9650-289C0E5A99A3} = {138D1826-DE3F-4748-9604-EACCCA426307}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8D44A62B-02F2-4893-B462-0092E0607EE6}
 	EndGlobalSection
 EndGlobal
