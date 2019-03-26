@@ -1,0 +1,20 @@
+{
+  "name": "zmqwebserver",
+  "version": "1.0.0",
+  "description": "Middleware which listens to updates from the zero mq server, caches the data and publish to clients",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "zeromq",
+    "middleware",
+    "websocket",
+    "nodejs"
+  ],
+  "author": "Sunil Manocha",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "^2.2.0"
+  }
+}
