@@ -101,7 +101,8 @@ io.on("connect", socket => {
                     subscriptionSockets.set(data.toString(), list);
                 }
                 console.log(`Going to send data to client of ${obj}`)
-                socket.emit("message", obj);
+                // we should test this compression
+                socket.compress(true).emit("message", obj);
             }
         }
     );

@@ -15,6 +15,8 @@
   "author": "Sunil Manocha",
   "license": "ISC",
   "dependencies": {
-    "socket.io": "^2.2.0"
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0",
+    "zmq": "^2.15.3"
   }
 }
