@@ -39,5 +39,9 @@ Open Source Algo Trading Platform to trade various financial products (Equity/Fu
    3. TDD and Continous integration is followed through out so we can make changes in the code with full confidence.
    4. Each release tests the performance by running sample strategy and generating stats to make sure there is no performance degradation.
    5. Backtest can be run on any machine including cloud AWS/Azure
+Floats/Double
+Financial applications often perform comparison operations on prices, for example, comparing an aggressive market order price against a limit price in the order book to determine if a trade has occurred. As prices are expressed in dollars and cents,pounds and pence.. prices are normally represented in code as a floating point number (float or double). However, comparisons using floating point numbers are error prone (e.g. 56.0400000001 != 56.04) and yield unpredictable results.
 
+To avoid this issue, financial applications often internally convert prices into an integer format. Not only does this ensure accurate comparison operations, but it also reduces the memory footprint and speeds up comparisons (integer operations are faster on a CPU than floating point operations).
 
+The sub-dollar section of prices are retained in an integer format by multiplying the price by a scaling factor. For example, the price 54.25 would become 5425000000 with a scaling factor of 100,000,00. Eight decimal places are sufficient to represent the valid range of tick prices in the financial market.
