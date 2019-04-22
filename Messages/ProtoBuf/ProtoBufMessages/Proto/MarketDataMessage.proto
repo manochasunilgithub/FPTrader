@@ -1,0 +1,105 @@
+﻿/*** What we need is price server which will have feed coming from the various market data sources/venues --
+      Exchanges/Brokers
+	  so we can have aggregator service which can aggregate all exchanges similar to Reuters server and we can subscribe to one server only
+	  for all instruments and request specific set of fields.
+
+	  Market Data service layer will get notification from each of the market data client and aggregation will be done at market data layer
+	  and all notifications will go on a single thread. We should tag the timestamps before putting into queue for consumer layer.
+	  Once consumer layer gets the notification, it should tag as well.. this will give us the indication of load on the system.
+
+	  Let's use middleware for non-latency messages, where as we can have point to point messages for the 
+
+	  Market Data server, will continue to listen from various clients which will be talking with various vendors in their specific language/protocol
+	  and send us the messages to Market Data server in one format, 
+	  market server once receive any message, it will send updates to all clients with particular update...
+
+	  We will be sending updates on Trade messages.. last trade price and volume
+	  We will be sending updates on Order book messages.. bid/ask, with level information, client should merge it on their end with the order book
+	  Also.. clients should get the snapshot first and queue up the messages
+
+	  Also we can subscribe to the MarketPrice message, if we just care about top level market data and 
+
+	  Generate message file from protobuf using build tool with ease.
+	  https://github.com/hanabi1224/Protobuf.CodeGen.BuildTask
+
+
+	  /// Notes
+	     When it comes to choosing a protocol, lot needs to be considered if we are considering a low latency system
+		  - Language supports (should support atleast these languages since my system is going to support these languages .. C#, Python )
+		  - Schema Language and schema evolution => Protocol should allow you to add new fields to a schema over time.
+		  - How much space each message takes.. like if Unset fields take space on wire? padding takes space on wire, size of message.
+			SBE and FlatBuffers leave the padding in to achieve zero-copy, where as Protocol Buffers avoids padding by encoding integers using variable widths
+		  - Benchmark all these messaging protocols for time taken for Serialization/Deserialization, Memory, GC pressure- specially for .net under same test environment
+
+
+**/
+syntax = "proto3";
+package FPTrader.MarketData;
+
+message PriceTimeStamps {
+	 int64 VenueTimeStamp =1;
+	 int64 ReceivedTimeStamp=2;
+	 int64 ProcessedTimeStamp=3;
+}
+
+message MarketLevel {
+    int64 price =1; // we store long as price to avoid loss of precision and use scaling factor for precision
+    int64 volume = 2; // It's the detla quantity being bid/ask/lastTraded
+}
+
+enum  MarketPriceMessageType{
+	Trade =0;
+	OrderBook =1;
+	MarketPriceData =2;
+	MarketStatus =3;
+	Auction = 4;
+	IOI = 5;
+	Imbalance =6;
+	Subscribe =7;
+	UnSubscribe =8;
+	SubscriptionAcked =9;
+	UnSubscriptionAcked =10;
+}
+
+message MarketPrice {
+	
+	enum MarketStaus
+	{
+		STATUS_UNKNOWN = 0;
+		STATUS_TRADING = 1;
+		STATUS_OPEN    = 2;
+		STATUS_CLOSE   = 3;
+		STATUS_AUCTION = 4;
+		STATUS_HALTED  = 5;
+		STATUS_SUSPEND = 6;
+		STATUS_STALE   = 7;
+	};
+	
+	 int64 ExchangeID =1; // we will store exchange id to string mapping
+	 int64 InstrumentID =2; // This can be a unique id for any instrument
+	 MarketStaus State =3;
+	 MarketLevel  BidLevel = 4; // This should be top of book
+	 MarketLevel  AskLevel = 5; // This should be top of book
+	 int64 TradePrice=6; // we are passing integer and will pass the  scaling factor if it is different than 4 decimals
+	 int64 TradeQty =7;
+	 PriceTimeStamps TimeStamps = 8;
+}
+
+message MarketTrade
+{
+	 int64 ExchangeID =1; // we will store exchange id to string mapping
+	 int64 InstrumentID =2; // This can be a unique id for any instrument
+
+	 int64 TradePrice=3; // we are passing integer and will pass the  scaling factor if it is different than 4 decimals
+	 int64 TradeQty =4;
+	 int64 ScalingFactor =5; // we should be setting if different than 4 decimals or whatever system level we decide.
+	 PriceTimeStamps TimeStamps = 6;
+}
+
+message MarketDepth {
+	 int64 ExchangeID =1; // we will store exchange id to string mapping
+	 int64 InstrumentID =2; // This can be a unique id for any instrument
+	repeated MarketLevel Bids = 3;
+	repeated MarketLevel Asks = 4;
+	 PriceTimeStamps TimeStamps =5;
+}

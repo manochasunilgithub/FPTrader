@@ -16,6 +16,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketDataServiceTest", "MarketDataServiceTest\MarketDataServiceTest.csproj", "{D92415BB-077E-489F-BF6B-36CED1434BBE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Prototypes", "Prototypes", "{5E69F88C-A470-44B5-AA2C-BDF0F4B24EE8}"
+	ProjectSection(SolutionItems) = preProject
+		Messages\ProtoBuf\ProtoBufMessages\Class1.cs = Messages\ProtoBuf\ProtoBufMessages\Class1.cs
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MessagingService", "MessagingService", "{B297F120-A753-439C-9966-B383BD353AC3}"
 EndProject
@@ -32,6 +35,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Python", "Python", "{138D1826-DE3F-4748-9604-EACCCA426307}"
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "MessagingClient", "Prototypes\Python\MessagingClient\MessagingClient.pyproj", "{37D36604-A6A1-4E40-9650-289C0E5A99A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Messages", "Messages", "{1CC6C672-F416-45EC-A339-B3BDA5DBA77A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Protobuf", "Protobuf", "{CE5677AA-824A-4249-9A9B-E9C2FEE4CBEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtoBufMessages", "Messages\ProtoBuf\ProtoBufMessages\ProtoBufMessages.csproj", "{AEA8037E-CF28-4BBB-8AFD-0EA0600A19C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +82,10 @@ Global
 		{BB950877-DC4C-4AFD-B294-2938A9C701F6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{37D36604-A6A1-4E40-9650-289C0E5A99A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{37D36604-A6A1-4E40-9650-289C0E5A99A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEA8037E-CF28-4BBB-8AFD-0EA0600A19C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEA8037E-CF28-4BBB-8AFD-0EA0600A19C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEA8037E-CF28-4BBB-8AFD-0EA0600A19C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEA8037E-CF28-4BBB-8AFD-0EA0600A19C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +102,8 @@ Global
 		{BB950877-DC4C-4AFD-B294-2938A9C701F6} = {B297F120-A753-439C-9966-B383BD353AC3}
 		{138D1826-DE3F-4748-9604-EACCCA426307} = {5E69F88C-A470-44B5-AA2C-BDF0F4B24EE8}
 		{37D36604-A6A1-4E40-9650-289C0E5A99A3} = {138D1826-DE3F-4748-9604-EACCCA426307}
+		{CE5677AA-824A-4249-9A9B-E9C2FEE4CBEF} = {1CC6C672-F416-45EC-A339-B3BDA5DBA77A}
+		{AEA8037E-CF28-4BBB-8AFD-0EA0600A19C4} = {CE5677AA-824A-4249-9A9B-E9C2FEE4CBEF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8D44A62B-02F2-4893-B462-0092E0607EE6}
